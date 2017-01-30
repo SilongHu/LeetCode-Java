@@ -1,0 +1,36 @@
+public class Solution {
+    public List<Integer> topKFrequent(int[] nums, int k) {
+        if (nums.length == 0 || nums == null || k <= 0) return null;
+        
+        Map<Integer, Integer> map = new HashMap<Integer, Integer>();
+        for(int i = 0; i < nums.length ; i++){
+            if(map.containsKey(nums[i])) {
+                map.put(nums[i],map.get(nums[i]) + 1);
+            }
+            else{
+                map.put(nums[i],1);
+            }
+        }
+        Comparator<Map.Entry<Integer, Integer>> valueComparator = new Comparator<Map.Entry<Integer,Integer>>() {
+			@Override
+			public int compare(Map.Entry<Integer, Integer> o1, Map.Entry<Integer, Integer> o2) {
+				// TODO Auto-generated method stub
+				return o2.getValue()-o1.getValue();
+			}
+		};
+		// map转换成list进行排序
+		List<Map.Entry<Integer, Integer>> list = new ArrayList<Map.Entry<Integer,Integer>>(map.entrySet());
+		Collections.sort(list,valueComparator);
+		//System.out.println("------------map按照value降序排序--------------------");
+		int index = 0;
+		ArrayList<Integer> res = new ArrayList<Integer>() ;
+		for (Map.Entry<Integer, Integer> entry : list) {
+		    res.add(entry.getKey());
+		    index++;
+		    if(index == k) break;
+		}
+        
+        return res;
+        
+    }
+}
