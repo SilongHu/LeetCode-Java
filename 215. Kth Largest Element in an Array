@@ -1,0 +1,11 @@
+public class Solution {
+    public int findKthLargest(int[] nums, int k) {
+        
+        if(nums.length ==  0 || nums == null || k <= 0) return -1;
+        Arrays.sort(nums);
+        
+        int index = nums.length;
+        return nums[index - k];
+        
+    }
+}
