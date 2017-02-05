@@ -1,0 +1,41 @@
+public class Solution {
+    public List<List<String>> partition(String s) {
+        List<List<String>> res = new ArrayList<>();
+        if(s == null || s.length() == 0) return res;
+        helper(res,new ArrayList<String>(), s, 0);
+        return res;
+    }
+    private void helper(
+        List<List<String>> res,
+        ArrayList<String> cur,
+        String s,
+        int start
+        ){
+            if(cur.size() > 0 && start >= s.length()){
+                res.add(new ArrayList<String>(cur));
+            }
+            for(int i = start; i < s.length(); i++){
+                if(isPalindrome(s,start,i)){
+                    if( start == i)
+                        cur.add(Character.toString(s.charAt(i)));
+                    else
+                        cur.add(s.substring(start,i+1));
+                    helper(res,cur,s,i+1);
+                    cur.remove(cur.size() - 1);
+                }
+                
+            }
+            
+        }
+        
+    private boolean isPalindrome(String str, int l, int r){
+         if(l==r) return true;
+	        while(l<r){
+	            if(str.charAt(l)!=str.charAt(r)) return false;
+	            l++;r--;
+	        }
+	     return true;
+        
+    }
+        
+}
