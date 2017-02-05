@@ -1,0 +1,37 @@
+public class Solution {
+    public int myAtoi(String str) {
+        if(str == null || str.length() == 0) return 0;
+        List<Integer> res = new ArrayList<Integer>();
+        //flag1 checks the first +/-
+        //flag2 checks the whitespace after digits.
+        int flag1 = 0,flag2 = 0,sign = 0;
+        int INT_MAX = 2147483647;
+        int INT_MIN = -2147483648;
+        for(char c:str.toCharArray()){
+            if(Character.isWhitespace(c) && flag2 == 0) continue;
+            if(flag1==0 && c == '+') {sign = 1;flag1 = 1;flag2 = 1;;continue;}
+            if(flag1==0 && c == '-') {sign = -1;flag1 = 1;flag2 = 1;;continue;}
+            if(Character.isJavaLetterOrDigit(c) && !Character.isAlphabetic(c)){
+                res.add(c - '0');
+                flag2 = 1;
+            }
+            else{ break;}
+        }
+        int m = res.size(),result = 0, i = 1;
+        if (m == 0) return 0;
+        
+        for(Integer k : res){
+            if(sign == 1 || sign == 0){
+            result += k * Math.pow(10,m-i);
+            if (result > INT_MAX) return INT_MAX;
+            i++;
+            }
+            else{
+            result -= k * Math.pow(10,m-i);
+            if (result < INT_MIN) return INT_MIN;
+            i++; 
+            }
+        }
+        return result;
+    }
+    }
