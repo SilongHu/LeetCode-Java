@@ -1,0 +1,65 @@
+public class Solution {
+    public int thirdMax(int[] nums) {
+        if(nums == null || nums.length == 0) return 0;
+        int len = nums.length, i = 0;
+        Deque<Integer> q = new ArrayDeque<>();
+        while( i < len ){
+            int flag = 0;
+            if(!q.isEmpty() && nums[i] > q.peek() && q.size() < 3){
+                q.offerFirst(nums[i]);
+                flag = 1;
+            }
+            
+            else if(!q.isEmpty() && nums[i] < q.peek() && q.size() == 1){
+                q.offerLast(nums[i]);
+                flag = 1;
+            }
+            else if(!q.isEmpty() && nums[i] < q.peek() && q.size() == 2){
+                 if(nums[i] > q.peekLast()) {
+                     int temp = q.pollLast();
+                     q.offerLast(nums[i]);
+                     q.offerLast(temp);
+                     
+                 }
+                 else if(nums[i] < q.peekLast()){
+                    q.offerLast(nums[i]);
+                 }
+                flag = 1;
+            }
+            
+            else if (!q.isEmpty() && nums[i] > q.peek() && q.size() == 3){
+                q.offerFirst(nums[i]);
+                q.pollLast();
+                flag = 1;
+            }
+            else if (!q.isEmpty() && nums[i] < q.peek() && q.size() == 3){
+                
+                if(nums[i] > q.peekLast()){
+                    int last = q.pollLast();
+                    int temp = q.peekLast();
+                    if(nums[i] > temp){
+                        q.pollLast();
+                        q.offerLast(nums[i]);
+                        q.offerLast(temp);
+                    }
+                    else if(nums[i] < temp){
+                        q.offerLast(nums[i]);
+                    
+                    }
+                    else{
+                        q.offerLast(last);
+                    }
+                }
+                flag = 1;
+            }
+            else if(flag == 0 && q.size() < 3) {
+                if( (!q.isEmpty() && nums[i] != q.peek()) || q.isEmpty() )
+                    q.offer(nums[i]);
+            }
+            i++;
+        }
+        if(q.size() < 3) return q.peek();
+        return q.peekLast();
+        
+    }
+}
